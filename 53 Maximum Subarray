@@ -1,1 +1,19 @@
 
+//在线处理法T(n)
+func maxSubArray(nums []int) int {
+    var( Maxsum int
+        Thissum int )
+    Thissum=nums[0]
+    Maxsum=Thissum
+    for i:=1;i<=len(nums)-1;i++ {
+        num:=nums[i]
+        if num>num+Thissum {
+            Thissum=num
+        }else {
+            Thissum+=num
+        }     
+    if Thissum > Maxsum {
+        Maxsum=Thissum
+    }  }
+    return Maxsum
+}
