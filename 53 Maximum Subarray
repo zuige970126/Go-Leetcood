@@ -1,5 +1,5 @@
 
-//在线处理法T(n)
+//1.在线处理法T(n)
 func maxSubArray(nums []int) int {
     var( Maxsum int
         Thissum int )
@@ -26,7 +26,67 @@ func maxSubArray(nums []int) int {
 5.1.在这段扫描里 共拿到n个Thissum 且每次循环都比较大小 能拿到1个最大的Thissum 赋值给MAX
 6.开始以[n]元素为头的 第二次扫描，以此类推 扫描到最后一个元素。
 7.就可以比较出最大的连续合为多少
+*/
 
+//2.用分治法解决此题
+func MaxSubArray(nums []int ,left int,right int) int {
+    // left:=0
+    // right:=len(nums)-1
+    
+    if left==right{
+        return nums[left]
+    }
+    if left>right {
+   return int(^(int(^uint(0) >> 1)))
+      }
+   mid := (left + right) >> 1
+    maxleft:=MaxSubArray(nums,left,mid-1)
+    maxright:=MaxSubArray(nums,mid+1,right)
+    partLeftMax := 0
+    partRightMax := 0
+    
+    suml:=0
+    for i := mid - 1; i >= left; i-- {
+        suml+= nums[i]
+        if suml> partLeftMax {
+            partLeftMax = suml
+        }
+    }
+    sumr:=0
+    for i := mid+1;i<=right;i++{
+        sumr+= nums[i]
+        if sumr>  partRightMax{
+           partRightMax = sumr
+        }
+    }
+    partMidMax := partLeftMax + partRightMax + nums[mid]
+    tmp := 0
+    if maxleft > maxright {
+        tmp = maxleft
+    } else {
+        tmp =maxright
+    }
+    if tmp<partMidMax{
+        tmp=partMidMax
+    }
+    return tmp
+}
+func maxSubArray(nums []int)int{
+    var l=0
+    var r=len(nums)-1
+    ret:= MaxSubArray(nums,l,r)
+    return ret
+}
 
-
+/*
+    题目只能传入nums[] 所以另外在创建一个函数 满足分治法
+    1.分解：将原问题分解为若干个规模较小，相对独立，与原问题形式相同的子问题。
+    2.解决：若子问题规模较小且易于解决 时，则直接解。否则，递归地解决各子问题。
+    3.合并：将各子问题的解合并为原问题的解。
+    4.通过函数的自我调用，将函数无限的一分为二下去
+    5.每调用一次函数就会得到leftmax 和 rightmax ，midmax且每次迭代使用函数都会对比前后leftmax 和 rightmax，midmax的大小。
+    6.每次 partMidMax := partLeftMax + partRightMax + nums[mid]，分到最后可能是3个元素 或2个元素
+    7.通过比较 partLeftMax partMidMax partRighMax 三者的大小 将最大的值 赋值与tmp
+    8.如果分了n次则能得到n个tmp
+    
 */
