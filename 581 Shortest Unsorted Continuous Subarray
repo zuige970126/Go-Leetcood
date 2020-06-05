@@ -1,0 +1,30 @@
+581 Shortest Unsorted Continuous Subarray
+//给定一个整数数组，你需要寻找一个连续的子数组，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。
+//你找到的子数组应是最短的，请输出它的长度。
+func findUnsortedSubarray(nums []int) int {
+   var l=0
+    var r=0
+    var sum int
+    max:=nums[0]
+    min:=nums[len(nums)-1]
+    for i:=0;i<len(nums);i++{
+        if max<=nums[i]{
+            max=nums[i]
+        }else{
+            r=i
+        }
+    }
+    for j:=len(nums)-1;j>-1;j--{
+        if min>=nums[j]{
+            min=nums[j]
+        }else{
+            l=j
+        }
+    }
+    sum=r-l+1
+    if r==l{              //判断如果数组是升序数组
+                           // r==l==0 ，而上述sum=1 所以要对这个特殊进行判断
+        return 0
+    }
+    return sum 
+}
