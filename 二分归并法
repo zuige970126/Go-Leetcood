@@ -1,0 +1,40 @@
+//nums := []int{2, 25, 744, 1, 5, 2, 4, 7, 88, 4, 0, 44, 7}一个切片
+//输出：[0 1 2 2 4 4 5 7 7 25 44 88 744]
+import "fmt"
+
+//二分归并排序
+func merge(left []int, right []int) []int {
+	merge := []int{}
+	for len(left) > 0 && len(right) > 0 {
+		if left[0] < right[0] {
+			merge = append(merge, left[0])
+			left = append(left[:0], left[1:]...)
+		} else {
+			merge = append(merge, right[0])
+			right = append(right[:0], right[1:]...)
+		}
+	}
+
+	if len(left) < 1 {
+		merge = append(merge, right[:]...)
+	} else {
+		merge = append(merge, left[:]...)
+	}
+	return merge
+}
+func meregSort(nums []int) []int {
+	if len(nums) <= 1 {
+		return nums
+	}
+	mid := (0 + len(nums)) / 2
+	l := meregSort(nums[:mid])
+	r := meregSort(nums[mid:])
+	ret := merge(l, r)
+	return ret
+}
+
+func main() {
+	nums := []int{2, 25, 744, 1, 5, 2, 4, 7, 88, 4, 0, 44, 7}
+	ret := meregSort(nums)
+	fmt.Println(ret)
+}
